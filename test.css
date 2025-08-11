@@ -1,0 +1,18 @@
+/* test.css - CSS Injection Check */
+
+/* Gửi request tới webhook ngay khi file CSS được load */
+@import url("https://webhook.site/118e8b77-286d-4746-98e5-cde06428bcca/?stage=css_loaded");
+
+/* Thêm màu nền để bạn thấy rõ file CSS đã áp dụng */
+body {
+  background-color: yellow !important;
+}
+
+/* Tạo một request nữa bằng background-image */
+body::after {
+  content: "CSS Injection Test";
+  display: block;
+  background-image: url("https://webhook.site/118e8b77-286d-4746-98e5-cde06428bcca/?stage=bg_request");
+  height: 1px;
+  width: 1px;
+}
